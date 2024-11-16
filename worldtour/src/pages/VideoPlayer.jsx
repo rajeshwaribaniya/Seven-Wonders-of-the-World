@@ -109,7 +109,9 @@ const Card = ({data})=> {
       videoRef.current.currentTime = videoRef.current.currentTime - 10;
     }
 
- 
+    const handleFullscreen = () => {
+        videoRef.current.requestFullscreen();
+    }
     
     return(
 
@@ -126,6 +128,7 @@ const Card = ({data})=> {
             {/* Note: The onloadedmetadata event occurs when meta data for a media has been loaded. */}
               <video 
                   ref= {videoRef}
+                  onClick={playPauseClick}
                   onPlay={()=> setVideoPlaying(true)}
                   onPause={()=> setVideoPlaying(false)}
                   onLoadedMetadata={loadedData}
@@ -135,6 +138,7 @@ const Card = ({data})=> {
                   <source
                   src= {data.video}
                   type = "video/mp4" />
+
               </video>
 
 
@@ -170,9 +174,11 @@ const Card = ({data})=> {
 
    
                     {/* video play */}
+                  <div className='flex justify-between items-center'>
+                  
                   <div className='flex items-center'>
 
-                  <button onClick={playPauseClick} className=' w-fit rounded-full'>
+                    <button onClick={playPauseClick} className=' w-fit rounded-full'>
 
                   { videoPlaying? 
                   (
@@ -191,18 +197,25 @@ const Card = ({data})=> {
                   ) )
                   }
 
-                  </button>
+                    </button>
 
-                 <div onClick={handleBackward}>
-                  <img 
-                  src="icons/back.png" 
-                  className='w-[48px]' />
-                 </div>
+                    <div onClick={handleBackward}>
+                        <img 
+                        src="icons/back.png" 
+                        className='w-[48px]' />
+                    </div>
 
-                 <div onClick={handleForward}>
-                  <img src="icons/forward.png"
-                  className='w-[48px]'  />
-                 </div>
+                    <div onClick={handleForward}>
+                      <img src="icons/forward.png"
+                      className='w-[48px]'  />
+                  </div>
+
+                  </div>
+                  
+
+                 <div onClick={handleFullscreen}>
+                      <img src='icons/fullscreen.png' className='w-[40px]' />
+                  </div>
 
                   </div>
 
