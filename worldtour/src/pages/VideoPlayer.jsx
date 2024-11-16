@@ -57,8 +57,11 @@ export  function VideoPlayer() {
 
 const Card = ({data})=> {
 
-  const[videoPlaying, setVideoPlaying] = useState(false);
+    const[videoPlaying, setVideoPlaying] = useState(false);
     const videoRef = useRef(null);
+
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
 
     const buttonClick = ()=> {
         const videoNotPlaying = !videoPlaying;
@@ -72,6 +75,22 @@ const Card = ({data})=> {
         }
     }
 
+    const timeFormat = (time)=> {
+      const minutes = Math.floor(time/60);
+      const seconds = Math.floor(time % 60);
+      return(`${minutes} : ${seconds < 10 ? "0": ""}${seconds}`);
+    }
+
+    const sliderChange = (e)=> {
+      const newTime = e.target.value;
+      videoRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+
+    const loadedData = ()=> {
+      setDuration(videoRef.current.duration);
+    }
+
     return(
         <div className='flex flex-col gap-[24px] '>
 
@@ -80,18 +99,45 @@ const Card = ({data})=> {
              {/* video part */}
             <div className='flex flex-col gap-[16px] items-start'>
 
+
+            {/* Note: The onloadedmetadata event occurs when meta data for a media has been loaded. */}
               <video 
                   ref= {videoRef}
                   onPlay={()=> setVideoPlaying(true)}
-                  onPause={()=> setVideoPlaying(false)}>
+                  onPause={()=> setVideoPlaying(false)}
+                  onLoadedMetadata={loadedData}
+                  onTimeUpdate={()=> setCurrentTime(videoRef.current.currentTime)}>
 
                   <source
                   src= {data.video}
                   type = "video/mp4" />
               </video>
-                
 
-                <button onClick={buttonClick} className=' w-fit rounded-full'>
+              {/* video controls */}
+
+              <div className='flex felx-col gap-[16px] w-full'>
+
+                {/* duration part + slider + play for video */}
+                <div className='flex flex-col gap-[16px] w-full'>
+
+                  <div className='text-[16px] text-[#373737] w-full text-right' >
+                      {`${timeFormat(currentTime)} / ${duration>0 ? timeFormat(duration): "0: 00"}`}
+                  </div>
+
+                  <div>
+                    <input 
+                    type='range'
+                    min= '0'
+                    max = {duration}
+                    value={currentTime}
+                    onChange={sliderChange}
+                    className='w-full'
+                     />
+                  </div>
+
+                  <div className='flex gap-[8px]'>
+
+                  <button onClick={buttonClick} className=' w-fit rounded-full'>
 
                   { videoPlaying? 
                   (
@@ -110,7 +156,23 @@ const Card = ({data})=> {
                   ) )
                   }
 
-                  </button>
+                </button>
+
+                  </div>
+
+                </div>
+
+                
+                
+
+                
+
+                
+
+              </div>
+                
+
+                
                     
                 
 
