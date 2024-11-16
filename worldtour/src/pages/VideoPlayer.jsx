@@ -73,7 +73,9 @@ const Card = ({data})=> {
     }
 
     return(
-        <div className='flex flex-col gap-[24px] pb-[16px]  border-b-[16px]'>
+        <div className='flex flex-col gap-[24px] '>
+
+            <p className='text-[32px] font-[300]'>{data.id}. {data.title}</p>
 
              {/* video part */}
             <div className='flex flex-col gap-[16px] items-start'>
@@ -114,14 +116,9 @@ const Card = ({data})=> {
 
             </div>
 
-            {/* textpart */}
-            <div className='flex flex-col gap-[12px]'>
-
-              <p className='text-[32px] font-[300]'>{data.id}. {data.title}</p>
-
               <p className='text-[#4E4E4E]  text-[18px] leading-[28px] '>{data.description}</p>
 
-            </div>
+            
 
         </div>
     );

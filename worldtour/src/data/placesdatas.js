@@ -36,6 +36,19 @@ export const placesdatas = [
         description: "Nestled in the Andes Mountains, this ancient Incan citadel is renowned for its sophisticated dry-stone construction. Built in the 15th century, it was abandoned during the Spanish conquest. Rediscovered in 1911, it offers stunning views and insight into Incan civilization. Its terraces and temples blend harmoniously with the natural landscape."      
     },
 
+    {
+        id: 6,
+        video: "videos/chichen.mp4",
+        title: "Chichen Itza",
+        description: "This Mayan city, centered around the Temple of Kukulcán, showcases advanced astronomy and architecture. The pyramid aligns with equinoxes, creating the illusion of a serpent slithering down its steps. Built between the 9th and 12th centuries, it was a major economic and religious hub."
+    },
+
+    {
+        id: 7,
+        video: "videos/roman.mp4",
+        title: "Roman Colosseum",
+        description: "The largest amphitheater ever built, the Colosseum could hold up to 50,000 spectators. Completed in AD 80, it hosted gladiatorial contests, dramas, and public spectacles. Its sophisticated engineering includes retractable awnings and underground chambers. A symbol of ancient Rome, it remains a marvel of architectural and cultural significance."
+    }
 
 
 ]
