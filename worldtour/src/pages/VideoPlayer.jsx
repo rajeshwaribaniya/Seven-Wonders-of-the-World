@@ -125,13 +125,17 @@ const Card = ({data})=> {
                   </div>
 
                   <div>
+
+                    {/* Note: appearance-none: Removes default browser styling for inputs. */}
+                    {/* accentColor Property:
+                    Controls the color of form elements like the slider thumb, checkboxes, and radio buttons. */}
                     <input 
                     type='range'
                     min= '0'
                     max = {duration}
                     value={currentTime}
                     onChange={sliderChange}
-                    className='w-full'
+                    className='w-full h-[2px] appearance-none  rounded-lg accent-[#373737] bg-[#A9A9A9]'
                      />
                   </div>
 
