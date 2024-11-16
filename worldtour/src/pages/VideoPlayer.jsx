@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, {  useRef, useState } from 'react'
 import { placesdatas } from '../data/placesdatas';
 
 export  function VideoPlayer() {
@@ -63,7 +63,7 @@ const Card = ({data})=> {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
 
-    const buttonClick = ()=> {
+    const playPauseClick = ()=> {
         const videoNotPlaying = !videoPlaying;
         setVideoPlaying(videoNotPlaying);
 
@@ -82,7 +82,7 @@ const Card = ({data})=> {
     }
 
     const sliderChange = (e)=> {
-      const newTime = e.target.value;
+      const newTime = e.target.value <= duration ? e.target.value: duration;
       videoRef.current.currentTime = newTime;
       setCurrentTime(newTime);
     }
@@ -91,40 +91,67 @@ const Card = ({data})=> {
       setDuration(videoRef.current.duration);
     }
 
+    const handleTimeUpdate = () => {
+      setCurrentTime(videoRef.current.currentTime);
+    };
+
+    const handleEnded = () => {
+      setCurrentTime(duration); 
+      videoRef.current.currentTime = duration; 
+  
+    };
+
+    const handleForward = ()=> {
+      videoRef.current.currentTime = videoRef.current.currentTime + 10;
+    }
+
+    const handleBackward = ()=> {
+      videoRef.current.currentTime = videoRef.current.currentTime - 10;
+    }
+
+ 
+    
     return(
-        <div className='flex flex-col gap-[24px] '>
+
+      // this is main div. It has title, video part and a description
+        <div className='flex flex-col gap-[24px] '> 
 
             <p className='text-[32px] font-[300]'>{data.id}. {data.title}</p>
 
-             {/* video part */}
-            <div className='flex flex-col gap-[16px] items-start'>
+             {/* video part. first part : video second part : (duration part + slider) + play for video  */ }
+            <div className='flex flex-col gap-[24px] items-start'>
 
 
+            {/* first part video */}
             {/* Note: The onloadedmetadata event occurs when meta data for a media has been loaded. */}
               <video 
                   ref= {videoRef}
                   onPlay={()=> setVideoPlaying(true)}
                   onPause={()=> setVideoPlaying(false)}
                   onLoadedMetadata={loadedData}
-                  onTimeUpdate={()=> setCurrentTime(videoRef.current.currentTime)}>
+                  onTimeUpdate={handleTimeUpdate}
+                  onEnded={handleEnded}>
 
                   <source
                   src= {data.video}
                   type = "video/mp4" />
               </video>
 
+
               {/* video controls */}
 
-              <div className='flex felx-col gap-[16px] w-full'>
-
-                {/* duration part + slider + play for video */}
+                {/* (duration part + slider) + play for video */}
                 <div className='flex flex-col gap-[16px] w-full'>
 
-                  <div className='text-[16px] text-[#373737] w-full text-right' >
-                      {`${timeFormat(currentTime)} / ${duration>0 ? timeFormat(duration): "0: 00"}`}
-                  </div>
 
-                  <div>
+                  {/* duration text + slider */}
+                  <div className='flex flex-col '>
+
+                    <div className='text-[16px] text-[#373737] w-full text-right leading-[100%]' >
+                        {`${timeFormat(currentTime)} / ${duration>0 ? timeFormat(duration): "0: 00"}`}
+                    </div>
+
+                    <div>
 
                     {/* Note: appearance-none: Removes default browser styling for inputs. */}
                     {/* accentColor Property:
@@ -135,50 +162,56 @@ const Card = ({data})=> {
                     max = {duration}
                     value={currentTime}
                     onChange={sliderChange}
-                    className='w-full h-[2px] appearance-none  rounded-lg accent-[#373737] bg-[#A9A9A9]'
+                    className='w-full h-[2px] appearance-none  rounded-lg accent-[#373737] bg-[#A9A9A9] '
                      />
                   </div>
 
-                  <div className='flex gap-[8px]'>
+                  </div>
 
-                  <button onClick={buttonClick} className=' w-fit rounded-full'>
+   
+                    {/* video play */}
+                  <div className='flex items-center'>
+
+                  <button onClick={playPauseClick} className=' w-fit rounded-full'>
 
                   { videoPlaying? 
                   (
                     <div>
                       <img 
                       src= "icons/pause.png"
-                      className='  w-[32px]'/>
+                      className='w-[48px]'/>
                     </div>
                   ) : 
 
                   ((
                     <div>
-                      <img src= "icons/PlayCircle.png"
-                      className='w-[32px]'/>
+                      <img src= "icons/play.png"
+                      className='w-[48px]'/>
                     </div>
                   ) )
                   }
 
-                </button>
+                  </button>
+
+                 <div onClick={handleBackward}>
+                  <img 
+                  src="icons/back.png" 
+                  className='w-[48px]' />
+                 </div>
+
+                 <div onClick={handleForward}>
+                  <img src="icons/forward.png"
+                  className='w-[48px]'  />
+                 </div>
 
                   </div>
 
                 </div>
+    
 
+              
                 
-                
-
-                
-
-                
-
-              </div>
-                
-
-                
-                    
-                
+    
 
             </div>
 
